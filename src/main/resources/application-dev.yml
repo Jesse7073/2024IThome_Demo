@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  # DataSource
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ithome2024?serverTimezone=Asia/Taipei&characterEncoding=utf-8
+    username: root
+    password: password
+
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    org:
+      springframework: INFO
