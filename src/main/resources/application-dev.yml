@@ -11,6 +11,11 @@ spring:
 
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update  # 在啟動時更新資料庫模式，僅適用於開發環境
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
 
 logging:
   level:
