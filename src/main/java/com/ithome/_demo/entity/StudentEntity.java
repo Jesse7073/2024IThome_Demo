@@ -17,7 +17,7 @@ public class StudentEntity {
     private String firstName;
 
     @Column(name = "Last_Name")
-    private String LastName;
+    private String lastName;
 
     @Column(name = "Gender")
     private String gender;
@@ -25,6 +25,6 @@ public class StudentEntity {
     @Column(name = "Grade")
     private String grade;
 
-    @Column(name = "Department")
-    private String department;
+    @Column(name = "Department_Id")
+    private String departmentId;
 }
