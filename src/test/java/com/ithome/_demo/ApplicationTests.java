@@ -1,6 +1,6 @@
 package com.ithome._demo;
 
-import com.ithome._demo.dto.StudentDto;
+import com.ithome._demo.dto.StudentAndDepartmentDto;
 import com.ithome._demo.service.IJasperReportDemoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ class ApplicationTests {
 
 	@Test
 	public void getStudentDataTest() {
-		List<StudentDto> studentDtoList = jasperReportDemoService.getStudentData();
-		System.out.println(studentDtoList);
+		List<StudentAndDepartmentDto> studentAndDepartmentDtoList = jasperReportDemoService.getStudentData();
+		System.out.println(studentAndDepartmentDtoList);
 	}
 }

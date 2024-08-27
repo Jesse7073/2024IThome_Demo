@@ -1,7 +1,7 @@
 package com.ithome._demo.service.Impl;
 
 import com.ithome._demo.dao.IJasperReportDemoDao;
-import com.ithome._demo.dto.StudentDto;
+import com.ithome._demo.dto.StudentAndDepartmentDto;
 import com.ithome._demo.service.IJasperReportDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,15 @@ public class JasperReportDemoServiceImpl implements IJasperReportDemoService {
     private IJasperReportDemoDao jasperReportDemoDao;
 
     @Override
-    public List<StudentDto> getStudentData() {
-        List<StudentDto> studentDtoList = null;
+    public List<StudentAndDepartmentDto> getStudentData() {
+        List<StudentAndDepartmentDto> studentAndDepartmentDtoList = null;
         try {
-            studentDtoList = Optional.of(jasperReportDemoDao.queryStudentData())
-                    .orElse(new ArrayList<>())
-                    .stream().map(StudentDto::new)
-                    .collect(Collectors.toList());
+            studentAndDepartmentDtoList = Optional.of(jasperReportDemoDao.queryStudentData())
+                    .orElse(new ArrayList<>());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return studentDtoList;
+        return studentAndDepartmentDtoList;
     }
 }
