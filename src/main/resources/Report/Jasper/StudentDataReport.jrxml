@@ -20,7 +20,7 @@
 			<staticText>
 				<reportElement x="-20" y="0" width="595" height="49" uuid="cbf80dc4-072f-45ae-9e3e-7a3d19df2b24"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="20"/>
+					<font fontName="微軟正黑體" size="20"/>
 				</textElement>
 				<text><![CDATA[XX大學 學生資料表]]></text>
 			</staticText>
@@ -31,7 +31,7 @@
 			<textField>
 				<reportElement x="-20" y="0" width="595" height="39" uuid="297f438b-2e77-4f9f-ae5c-bb5107d5135f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16"/>
+					<font fontName="微軟正黑體" size="16"/>
 				</textElement>
 				<textFieldExpression><![CDATA["資料時間：" + $P{date}]]></textFieldExpression>
 			</textField>
@@ -43,35 +43,35 @@
 			<staticText>
 				<reportElement x="-20" y="0" width="100" height="30" uuid="81582984-a4c5-4645-8c40-b3720c756cf7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
 				<text><![CDATA[序號]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="80" y="0" width="154" height="30" uuid="247d4fd3-64c4-40bd-99fd-d7edc0f22d10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
 				<text><![CDATA[姓名]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="234" y="0" width="101" height="30" uuid="84adbaaf-974e-4fc5-81f5-54039ff368d1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
 				<text><![CDATA[性別]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="475" y="0" width="100" height="30" uuid="85a86eba-30b6-4718-a47b-9824e07e740b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
 				<text><![CDATA[年級]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="335" y="0" width="140" height="30" uuid="02c191ae-2e31-4588-8cb5-4ed1e2757b4f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14"/>
+					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
 				<text><![CDATA[科系]]></text>
 			</staticText>
@@ -82,27 +82,37 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="-20" y="0" width="100" height="30" uuid="4348c879-4429-4d3e-bbca-fbd88bb475ca"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="微軟正黑體"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{studentId}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="80" y="0" width="154" height="30" uuid="8f644d4b-b4d8-480b-a789-fd69ee488098"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="微軟正黑體"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="234" y="0" width="101" height="30" uuid="b7d0f3d0-ead1-40f9-8584-aaf87452714d"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="微軟正黑體"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="335" y="0" width="140" height="30" uuid="c506b421-587d-4ea9-93da-e1395cd93cce"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="微軟正黑體"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{department}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="475" y="0" width="100" height="30" uuid="24ddf3ee-e2d5-41ca-9f8b-a0d25621e5bd"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="微軟正黑體"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -112,6 +122,9 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="0" y="0" width="210" height="30" uuid="6a5e2675-e009-4aa8-ab30-7e9acb94bc1d"/>
+				<textElement>
+					<font fontName="微軟正黑體"/>
+				</textElement>
 				<textFieldExpression><![CDATA["共 " + $P{studentNum}  + " 位學生"]]></textFieldExpression>
 			</textField>
 		</band>
