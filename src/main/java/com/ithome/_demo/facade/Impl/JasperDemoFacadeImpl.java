@@ -1,5 +1,6 @@
 package com.ithome._demo.facade.Impl;
 
+import com.ithome._demo.common.consts.FileType;
 import com.ithome._demo.common.utils.DateUtil;
 import com.ithome._demo.common.utils.ExportReportUtil;
 import com.ithome._demo.dto.StudentAndDepartmentDto;
@@ -40,9 +41,10 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         // 4.匯出excel byte[]
         byte[] bytes = null;
         String reportPath = "/Report/Jasper/StudentDataReport.jrxml";
+        String fileType = FileType.XLSX;
         try {
             // 4.1 匯出pdf JasperExportManager
-            bytes = ExportReportUtil.templateToPdfByteSimple(studentDataReportModelList, reportPath, parametersMap);
+//            bytes = ExportReportUtil.templateToPdfByteSimple(studentDataReportModelList, reportPath, parametersMap);
 
             // 4.2 匯出pdf JRPdfExporter
             // 解決pdf中文無法顯示的問題
@@ -51,6 +53,7 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
 //            bytes = ExportReportUtil.templateToPdfByte(studentDataReportModelList, reportPath, parametersMap);
 
             // 4.3 匯出指定檔案類型報表
+            bytes = ExportReportUtil.templateToByteByFileType(studentDataReportModelList, reportPath, parametersMap, fileType);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -58,7 +61,7 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         // 5.設定檔案名稱
         CommonReportModel commonReportModel = null;
         try {
-            String encodedFilename = URLEncoder.encode("學生與科系資料.pdf", StandardCharsets.UTF_8.name());
+            String encodedFilename = URLEncoder.encode("學生與科系資料." + fileType, StandardCharsets.UTF_8.name());
             commonReportModel = new CommonReportModel(bytes, encodedFilename);
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -1,12 +1,14 @@
 package com.ithome._demo.common.utils;
 
+import com.ithome._demo.common.consts.FileType;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class ExportReportUtil {
 
         // https://blog.csdn.net/tang199115/article/details/7554026
         // https://topic.alibabacloud.com/tc/a/using-jasperreport-and-ireport-to-make-java-reports-rpm_1_27_20223505.html
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()){
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
 
             // 以JasperCompileManager將jrxml模板編譯成jasper文件
             // https://blog.csdn.net/caolaosanahnu/article/details/7402959
@@ -67,5 +69,114 @@ public class ExportReportUtil {
         } catch (Exception e) {
             throw new Exception();
         }
+    }
+
+    public static byte[] templateToByteByFileType(List dataSourceList, String reportPath, Map<String, Object> parametersMap, String fileType) throws Exception {
+
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            // 以JasperCompileManager將jrxml模板編譯成jasper文件
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(reportPath));
+
+            // 將Java集合資料來源與Jasper報表進行綁定
+            JRDataSource dataSource = new JRBeanCollectionDataSource(dataSourceList, true);
+
+            // 將資料填入報表
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parametersMap, dataSource);
+
+            // 匯出
+            exportReportByFileType(fileType, print, byteArrayOutputStream);
+
+            return byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
+    /**
+     * 匯出不同格式檔案
+     * https://blog.csdn.net/linbren/article/details/68067288
+     */
+    private static void exportReportByFileType(String fileType, JasperPrint print, ByteArrayOutputStream byteArrayOutputStream) throws JRException {
+
+        switch (fileType.toLowerCase()) {
+            case FileType.XLSX:
+                exportXlsx(print, byteArrayOutputStream);
+                break;
+
+            case FileType.XLS:
+                exportXls(print, byteArrayOutputStream);
+                break;
+
+            case FileType.PDF:
+                exportPdf(print, byteArrayOutputStream);
+                break;
+
+            case FileType.DOCX:
+                exportDocx(print, byteArrayOutputStream);
+                break;
+
+            default:
+                throw new IllegalArgumentException("不支援的檔案類型: " + fileType);
+        }
+    }
+
+    /**
+     * 匯出 pdf
+     */
+    private static void exportPdf(JasperPrint print, ByteArrayOutputStream byteArrayOutputStream) throws JRException {
+        SimplePdfReportConfiguration pdfReportConfiguration = new SimplePdfReportConfiguration();
+        // 頁面尺寸自動調整以適應內容的大小
+        pdfReportConfiguration.setSizePageToContent(true);
+
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setConfiguration(pdfReportConfiguration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+    }
+
+    /**
+     * 匯出 xlsx
+     */
+    private static void exportXlsx(JasperPrint print, ByteArrayOutputStream byteArrayOutputStream) throws JRException {
+        SimpleXlsxReportConfiguration xlsxReportConfiguration = new SimpleXlsxReportConfiguration();
+        // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
+        xlsxReportConfiguration.setDetectCellType(true);
+
+        JRXlsxExporter exporter = new JRXlsxExporter();
+        exporter.setConfiguration(xlsxReportConfiguration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+    }
+
+    /**
+     * 匯出 xls
+     */
+    private static void exportXls(JasperPrint print, ByteArrayOutputStream byteArrayOutputStream) throws JRException {
+        SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
+        // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
+        xlsReportConfiguration.setDetectCellType(true);
+
+        JRXlsExporter exporter = new JRXlsExporter();
+        exporter.setConfiguration(xlsReportConfiguration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+    }
+
+    /**
+     * 匯出 docx
+     */
+    private static void exportDocx(JasperPrint print, ByteArrayOutputStream byteArrayOutputStream) throws JRException {
+        SimpleDocxReportConfiguration docxReportConfiguration = new SimpleDocxReportConfiguration();
+        // 列高自動調整以適應內容
+        docxReportConfiguration.setFlexibleRowHeight(true);
+
+        JRDocxExporter exporter = new JRDocxExporter();
+        exporter.setConfiguration(docxReportConfiguration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
     }
 }
