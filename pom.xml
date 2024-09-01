@@ -95,6 +95,11 @@
 			<version>2.16.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.demo.report</groupId>
+			<artifactId>font</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
