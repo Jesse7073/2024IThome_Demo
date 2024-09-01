@@ -1,6 +1,7 @@
 package com.ithome._demo.common.utils;
 
 import com.ithome._demo.common.consts.FileType;
+import com.ithome._demo.model.report.common.ExportReportParams;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
@@ -92,6 +93,27 @@ public class ExportReportUtil {
         }
     }
 
+    public static byte[] templateToByteByFileType(ExportReportParams params) throws Exception {
+
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            // 以JasperCompileManager將jrxml模板編譯成jasper文件
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(params.getReportPath()));
+
+            // 將Java集合資料來源與Jasper報表進行綁定
+            JRDataSource dataSource = new JRBeanCollectionDataSource(params.getDataSourceList(), true);
+
+            // 將資料填入報表
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, params.getParametersMap(), dataSource);
+
+            // 匯出
+            exportReportByFileType(params, print, byteArrayOutputStream);
+
+            return byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
     /**
      * 匯出不同格式檔案
      * https://blog.csdn.net/linbren/article/details/68067288
@@ -117,6 +139,34 @@ public class ExportReportUtil {
 
             default:
                 throw new IllegalArgumentException("不支援的檔案類型: " + fileType);
+        }
+    }
+
+    /**
+     * 匯出不同格式檔案
+     * https://blog.csdn.net/linbren/article/details/68067288
+     */
+    private static void exportReportByFileType(ExportReportParams params, JasperPrint print, ByteArrayOutputStream byteArrayOutputStream) throws JRException {
+
+        switch (params.getFileType().toLowerCase()) {
+            case FileType.XLSX:
+                exportXlsx(print, byteArrayOutputStream, params.getSheetNames());
+                break;
+
+            case FileType.XLS:
+                exportXls(print, byteArrayOutputStream, params.getSheetNames());
+                break;
+
+            case FileType.PDF:
+                exportPdf(print, byteArrayOutputStream);
+                break;
+
+            case FileType.DOCX:
+                exportDocx(print, byteArrayOutputStream);
+                break;
+
+            default:
+                throw new IllegalArgumentException("不支援的檔案類型: " + params.getFileType());
         }
     }
 
@@ -157,6 +207,43 @@ public class ExportReportUtil {
         SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
         // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
         xlsReportConfiguration.setDetectCellType(true);
+
+        JRXlsExporter exporter = new JRXlsExporter();
+        exporter.setConfiguration(xlsReportConfiguration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+    }
+
+    /**
+     * 匯出 xlsx
+     */
+    private static void exportXlsx(JasperPrint print, ByteArrayOutputStream byteArrayOutputStream, String[] sheetNames) throws JRException {
+        SimpleXlsxReportConfiguration xlsxReportConfiguration = new SimpleXlsxReportConfiguration();
+        // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
+        xlsxReportConfiguration.setDetectCellType(true);
+        if (sheetNames != null && sheetNames.length > 0) {
+            xlsxReportConfiguration.setSheetNames(sheetNames);
+        }
+
+        JRXlsxExporter exporter = new JRXlsxExporter();
+        exporter.setConfiguration(xlsxReportConfiguration);
+        exporter.setExporterInput(new SimpleExporterInput(print));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+        exporter.exportReport();
+    }
+
+    /**
+     * 匯出 xls
+     */
+    private static void exportXls(JasperPrint print, ByteArrayOutputStream byteArrayOutputStream, String[] sheetNames) throws JRException {
+        SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
+        // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
+        xlsReportConfiguration.setDetectCellType(true);
+        if (sheetNames != null && sheetNames.length > 0) {
+            xlsReportConfiguration.setSheetNames(sheetNames);
+        }
+        xlsReportConfiguration.setSheetNames(sheetNames);
 
         JRXlsExporter exporter = new JRXlsExporter();
         exporter.setConfiguration(xlsReportConfiguration);

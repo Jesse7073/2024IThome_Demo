@@ -7,6 +7,7 @@ import com.ithome._demo.dto.StudentAndDepartmentDto;
 import com.ithome._demo.facade.IJasperDemoFacade;
 import com.ithome._demo.model.report.StudentDataReportModel;
 import com.ithome._demo.model.report.common.CommonReportModel;
+import com.ithome._demo.model.report.common.ExportReportParams;
 import com.ithome._demo.service.IJasperReportDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,9 +41,13 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
 
         // 4.匯出excel byte[]
         byte[] bytes = null;
-        String reportPath = "/Report/Jasper/StudentDataReport.jrxml";
         String fileType = FileType.XLSX;
         try {
+            String reportPath = "/Report/Jasper/StudentDataReport.jrxml";
+            String[] sheetNames = new String[]{"學生與科系資料表"};
+
+            ExportReportParams params = new ExportReportParams(studentDataReportModelList, reportPath, parametersMap, fileType, sheetNames);
+
             // 4.1 匯出pdf JasperExportManager
 //            bytes = ExportReportUtil.templateToPdfByteSimple(studentDataReportModelList, reportPath, parametersMap);
 
@@ -53,7 +58,10 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
 //            bytes = ExportReportUtil.templateToPdfByte(studentDataReportModelList, reportPath, parametersMap);
 
             // 4.3 匯出指定檔案類型報表
-            bytes = ExportReportUtil.templateToByteByFileType(studentDataReportModelList, reportPath, parametersMap, fileType);
+//            bytes = ExportReportUtil.templateToByteByFileType(studentDataReportModelList, reportPath, parametersMap, fileType);
+
+            // 4.4 匯出指定sheet名稱Excel報表
+            bytes = ExportReportUtil.templateToByteByFileType(params);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
