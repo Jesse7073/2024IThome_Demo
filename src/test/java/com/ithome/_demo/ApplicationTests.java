@@ -19,7 +19,7 @@ class ApplicationTests {
 
 	@Test
 	public void getStudentDataTest() {
-		List<StudentAndDepartmentDto> studentAndDepartmentDtoList = jasperReportDemoService.getStudentData();
+		List<StudentAndDepartmentDto> studentAndDepartmentDtoList = jasperReportDemoService.getStudentAndDepartmentData();
 		System.out.println(studentAndDepartmentDtoList);
 	}
 }

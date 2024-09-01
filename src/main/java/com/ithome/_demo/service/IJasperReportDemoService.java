@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IJasperReportDemoService {
     // 查詢學生資料
-    List<StudentAndDepartmentDto> getStudentData();
+    List<StudentAndDepartmentDto> getStudentAndDepartmentData();
 }

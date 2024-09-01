@@ -17,7 +17,7 @@ public class JasperReportDemoServiceImpl implements IJasperReportDemoService {
     private IJasperReportDemoDao jasperReportDemoDao;
 
     @Override
-    public List<StudentAndDepartmentDto> getStudentData() {
+    public List<StudentAndDepartmentDto> getStudentAndDepartmentData() {
         List<StudentAndDepartmentDto> studentAndDepartmentDtoList = null;
         try {
             studentAndDepartmentDtoList = Optional.of(jasperReportDemoDao.queryStudentData())
