@@ -2,9 +2,10 @@ package com.ithome._demo.common.utils;
 
 import com.ithome._demo.common.consts.FileType;
 import com.ithome._demo.model.report.common.ExportReportParams;
+import com.ithome._demo.model.report.common.MultipleSheetReportParams;
+import com.ithome._demo.model.report.common.SheetReportDetail;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -12,6 +13,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +109,49 @@ public class ExportReportUtil {
 
             // 匯出
             exportReportByFileType(params, print, byteArrayOutputStream);
+
+            return byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
+    public static byte[] templateToByteMultipleSheet(MultipleSheetReportParams params) throws Exception {
+
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            List<SheetReportDetail> sheetReportDetailList = params.getSheetReportDetailList();
+            List<JasperPrint> printList = new ArrayList<>();
+            String[] sheetNames = new String[sheetReportDetailList.size()];
+
+            for (int i = 0; i < sheetReportDetailList.size(); i++) {
+                SheetReportDetail detail = sheetReportDetailList.get(i);
+                sheetNames[i] = detail.getSheetName();
+                String path = detail.getReportPath();
+                List dataSourceList = detail.getDataSourceList();
+                Map<String, Object> parametersMap = detail.getParametersMap();
+
+                // 以JasperCompileManager將jrxml模板編譯成jasper文件
+                JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(path));
+
+                // 將Java集合資料來源與Jasper報表進行綁定
+                JRDataSource dataSource = new JRBeanCollectionDataSource(dataSourceList, true);
+
+                // 將資料填入報表
+                JasperPrint print = JasperFillManager.fillReport(jasperReport, parametersMap, dataSource);
+                printList.add(print);
+            }
+
+            SimpleXlsxReportConfiguration xlsxReportConfiguration = new SimpleXlsxReportConfiguration();
+            // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
+            xlsxReportConfiguration.setDetectCellType(true);
+            // 設定sheet名稱
+            xlsxReportConfiguration.setSheetNames(sheetNames);
+
+            JRXlsxExporter exporter = new JRXlsxExporter();
+            exporter.setConfiguration(xlsxReportConfiguration);
+            exporter.setExporterInput(SimpleExporterInput.getInstance(printList));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+            exporter.exportReport();
 
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {

@@ -7,14 +7,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDataReportModel {
+public class StudentCourseScoreReportModel {
     private String studentNumber;
 
     private String fullName;
 
-    private String gender;
-
     private String grade;
 
+    private String department;
+
+    private String courseDesc;
+
     private String departmentDesc;
+
+    private Integer score;
+
+    private String testDate;
 }

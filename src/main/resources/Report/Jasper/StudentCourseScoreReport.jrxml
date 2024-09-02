@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StudentScoreReport" pageWidth="800" pageHeight="120" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="800" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="648976fc-67db-420b-93ea-b59b87b24c4d">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="detectCellType" value="true"/>
+	<property name="onePagePerSheet" value="false"/>
+	<property name="whitePageBackground" value="false"/>
+	<property name="ignoreGraphics" value="false"/>
+	<property name="collapseRowSpan" value="true"/>
+	<property name="ignoreCellBorder" value="true"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="studentNumber" class="java.lang.String"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentDesc" class="java.lang.String"/>
+	<field name="grade" class="java.lang.String"/>
+	<field name="courseDesc" class="java.lang.String"/>
+	<field name="score" class="java.lang.Integer"/>
+	<field name="testDate" class="java.lang.String"/>
+	<title>
+		<band height="60" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="800" height="30" uuid="52e8ffed-df99-41a4-966e-dc6b12f0b5c8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="20"/>
+				</textElement>
+				<text><![CDATA[XX大學 學生考試成績表]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="800" height="30" uuid="693fbdb4-cc9b-4764-bbd5-44af634d1df3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA["資料時間：" + $P{date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="240" y="0" width="100" height="30" uuid="2bac7abe-96c4-4849-82cf-8c663df1d4b2"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[年級]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="494" y="0" width="116" height="30" uuid="1ba2c817-063b-4eab-9bfd-708210161424"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[課程]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="0" width="100" height="30" uuid="3ca28bba-a312-41c5-9ba0-f47c47506ed5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[考試日期]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="610" y="0" width="90" height="30" uuid="0347edaa-e6ec-42c5-bbd7-04ac72d17459"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[成績]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="140" height="30" uuid="18be1482-e418-49bf-a53a-43e50008fc0f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[科系]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="d8338d9b-8a1d-4f2f-b676-03e4c04be0da"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[序號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="0" width="154" height="30" uuid="01b337ff-f729-4de9-b5f2-cafad9144128"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體" size="14"/>
+				</textElement>
+				<text><![CDATA[姓名]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="240" y="0" width="100" height="30" uuid="72b5f2c6-3074-42a9-bdbf-eabac3e76241"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="610" y="0" width="90" height="30" uuid="0d48a25f-0932-40ec-9acc-dfd23bb30254"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{score}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="30" uuid="22328b83-57fe-4669-869a-1b51b7bd296d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{studentNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="140" height="30" uuid="4ebe8be4-552a-4687-a3b8-01ccb9fca4c0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departmentDesc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="0" width="116" height="30" uuid="85186c0b-10aa-42a1-aeb3-fee7b5873d8b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{courseDesc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="340" y="0" width="154" height="30" uuid="6bb0b3f2-b4d3-4efc-a983-3c39d0f29764"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="700" y="0" width="100" height="30" uuid="86d9d7df-202c-449b-9dad-b89d9c2e6ede"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{testDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,16 +1,18 @@
 package com.ithome._demo.dto;
 
-import com.ithome._demo.common.consts.GenderConsts;
-import com.ithome._demo.model.report.StudentDataReportModel;
+import com.ithome._demo.common.utils.DateUtil;
+import com.ithome._demo.model.report.StudentCourseScoreReportModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentAndDepartmentDto {
+public class StudentCourseScoreDto {
     private Integer studentId;
 
     private String firstName;
@@ -27,14 +29,30 @@ public class StudentAndDepartmentDto {
 
     private String departmentDesc;
 
-    public StudentDataReportModel toStudentDataReportModel() {
-        StudentDataReportModel model = new StudentDataReportModel();
+    private Integer courseId;
+
+    private String courseName;
+
+    private String courseDesc;
+
+    private String credit;
+
+    private Integer scoreId;
+
+    private Integer score;
+
+    private Date testDate;
+
+    public StudentCourseScoreReportModel toStudentCourseScoreReportModel() {
+        StudentCourseScoreReportModel model = new StudentCourseScoreReportModel();
         String padding = StringUtils.leftPad(String.valueOf(studentId), 5, "0");
         model.setStudentNumber(padding);
         model.setFullName(firstName + " " + lastName);
-        model.setGender(GenderConsts.Gender.MALE.getCode().equals(gender) ? GenderConsts.Gender.MALE.getValue() : GenderConsts.Gender.FEMALE.getValue());
         model.setGrade(grade);
         model.setDepartmentDesc(departmentDesc);
+        model.setCourseDesc(courseDesc);
+        model.setScore(score);
+        model.setTestDate(DateUtil.formatDate(DateUtil.toLocalDate(testDate), DateUtil.DatePattern.DATE_SLASH));
         return model;
     }
 }
