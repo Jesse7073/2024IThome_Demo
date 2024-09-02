@@ -21,7 +21,7 @@ public class ScoreEntity {
     private Integer courseId;
 
     @Column(name = "Score")
-    private String score;
+    private Integer score;
 
     @Column(name = "Test_Date")
     private Date testDate;

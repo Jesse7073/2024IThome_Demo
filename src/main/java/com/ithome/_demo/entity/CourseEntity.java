@@ -17,7 +17,7 @@ public class CourseEntity {
     private String courseName;
 
     @Column(name = "Course_Description")
-    private String courseDescription;
+    private String courseDesc;
 
     @Column(name = "Credit")
     private String credit;
