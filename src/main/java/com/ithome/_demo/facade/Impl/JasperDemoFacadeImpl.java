@@ -136,6 +136,90 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         return commonReportModel;
     }
 
+    /**
+     * 下載學生與科系資料表(不重複pageHeader，加浮水印) pdf
+     * */
+    @Override
+    public CommonReportModel exportStudentAndDepartmentDataMarkReport() {
+        // 1. 查詢學生基本資料
+        List<StudentAndDepartmentDto> studentAndDepartmentDtoList = jasperReportDemoService.getStudentAndDepartmentData();
+
+        // 2. 轉換為報表資料
+        List<StudentDataReportModel> studentDataReportModelList = Optional.of(studentAndDepartmentDtoList)
+                .orElse(new ArrayList<>()).stream()
+                .map(StudentAndDepartmentDto::toStudentDataReportModel).collect(Collectors.toList());
+
+        // 3. 設定報表參數
+        Map<String, Object> parametersMap = this.getStudentDataParameters(studentDataReportModelList);
+
+        // 4.匯出excel byte[]
+        byte[] bytes = null;
+        String fileType = FileType.PDF;
+        try {
+            String reportPath = "/Report/Jasper/StudentDataWithMarkReport.jrxml";
+            // 4.2 匯出pdf JRPdfExporter
+            bytes = ExportReportUtil.templateToPdfByte(studentDataReportModelList, reportPath, parametersMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // 5.設定檔案名稱
+        CommonReportModel commonReportModel = null;
+        try {
+            String encodedFilename = URLEncoder.encode("學生與科系資料." + fileType, StandardCharsets.UTF_8.name());
+            commonReportModel = new CommonReportModel(bytes, encodedFilename);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("下載 StudentDataExcelReport 成功");
+        return commonReportModel;
+    }
+
+    /**
+     * 下載學生科系考試平均成績excel報表
+     * */
+//    @Override
+//    public CommonReportModel exportDepartmentCourseScoreAverageDataReport() {
+//        // 1. 查詢學生考試成績資料
+//        List<StudentCourseScoreDto> studentCourseScoreDtoList = jasperReportDemoService.getStudentCourseScoreData();
+//
+//        // 2. 轉換為報表資料
+//        List<StudentCourseScoreReportModel> studentCourseScoreReportModelList = Optional.of(studentCourseScoreDtoList)
+//                .orElse(new ArrayList<>()).stream()
+//                .map(StudentCourseScoreDto::toStudentCourseScoreReportModel).collect(Collectors.toList());
+//
+//        // 4. 設定報表參數
+//        Map<String, Object> parametersMap = this.getStudentCourseScoreDataParameters();
+//
+//        // 5.匯出excel byte[]
+//        byte[] bytes = null;
+//        String fileType = FileType.XLSX;
+//        try {
+//            List<SheetReportDetail> sheetReportDetailList = getSheetReportDetailList(studentDataReportModelList, parametersMap, studentCourseScoreReportModelList);
+//
+//            MultipleSheetReportParams params = new MultipleSheetReportParams(sheetReportDetailList, fileType);
+//
+//            bytes = ExportReportUtil.templateToByteMultipleSheet(params);
+//            // 重複標題的問題
+//            // https://blog.csdn.net/daming924/article/details/7416613
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // 6.設定檔案名稱
+//        CommonReportModel commonReportModel = null;
+//        try {
+//            String encodedFilename = URLEncoder.encode("學生課堂成績資料." + fileType, StandardCharsets.UTF_8.name());
+//            commonReportModel = new CommonReportModel(bytes, encodedFilename);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        System.out.println("下載 StudentCourseScoreDataReport 成功");
+//        return commonReportModel;
+//    }
+
     private static List<SheetReportDetail> getSheetReportDetailList(List<StudentDataReportModel> studentDataReportModelList, Map<String, Object> parametersMap, List<StudentCourseScoreReportModel> studentCourseScoreReportModelList) {
         String reportPath1 = "/Report/Jasper/StudentDataReport.jrxml";
         String reportPath2 = "/Report/Jasper/StudentCourseScoreReport.jrxml";
