@@ -21,7 +21,7 @@ public class StudentAndDepartmentDto {
 
     private String grade;
 
-    private String departmentId;
+    private Integer departmentId;
 
     private String departmentName;
 

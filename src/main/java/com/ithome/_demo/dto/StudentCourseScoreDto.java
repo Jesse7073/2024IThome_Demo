@@ -23,7 +23,7 @@ public class StudentCourseScoreDto {
 
     private String grade;
 
-    private String departmentId;
+    private Integer departmentId;
 
     private String departmentName;
 

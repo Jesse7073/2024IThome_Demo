@@ -26,5 +26,5 @@ public class StudentEntity {
     private String grade;
 
     @Column(name = "Department_Id")
-    private String departmentId;
+    private Integer departmentId;
 }

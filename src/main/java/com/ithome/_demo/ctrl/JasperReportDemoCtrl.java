@@ -55,4 +55,17 @@ public class JasperReportDemoCtrl {
                 .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
                 .body(commonReportModel.getReportBytes());
     }
+
+    /**
+     * 下載學生與科系資料表(不重複pageHeader，加圓餅圖) pdf
+     * */
+    @GetMapping("/studentAndDepartmentDataPieChartReport")
+    public @ResponseBody ResponseEntity<byte[]> exportStudentAndDepartmentDataPieChartReport() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportStudentAndDepartmentDataPieChartReport();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
 }

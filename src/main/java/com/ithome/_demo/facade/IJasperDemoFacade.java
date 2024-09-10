@@ -12,6 +12,9 @@ public interface IJasperDemoFacade {
     // 下載學生與科系資料表(不重複pageHeader，加浮水印) pdf
     CommonReportModel exportStudentAndDepartmentDataMarkReport();
 
-//    //下載學生科系考試平均成績excel報表
-//    CommonReportModel exportDepartmentCourseScoreAverageDataReport();
+    // 下載學生科系考試平均成績excel報表
+    CommonReportModel exportDepartmentCourseScoreAverageDataReport();
+
+    // 下載學生科系比例圓餅圖
+    CommonReportModel exportStudentAndDepartmentDataPieChartReport();
 }
