@@ -27,7 +27,7 @@ public class ExportReportUtil {
 
             // 以JasperCompileManager將jrxml模板編譯成jasper文件
             // https://blog.csdn.net/caolaosanahnu/article/details/7402959
-            JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(reportPath));
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(reportPath));
 
             // 將Java集合資料來源與Jasper報表進行綁定
             // https://cloud.tencent.cn/developer/information/%E4%BD%BF%E7%94%A8JRBeanCollectionDataSource%E5%90%88%E5%B9%B6Jasper%E6%8A%A5%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%A1%8C%E5%8D%95%E5%85%83%E6%A0%BC%EF%BC%9F
@@ -51,7 +51,7 @@ public class ExportReportUtil {
 
             // 以JasperCompileManager將jrxml模板編譯成jasper文件
             // https://blog.csdn.net/caolaosanahnu/article/details/7402959
-            JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(reportPath));
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(reportPath));
 
             // 將Java集合資料來源與Jasper報表進行綁定
             // https://cloud.tencent.cn/developer/information/%E4%BD%BF%E7%94%A8JRBeanCollectionDataSource%E5%90%88%E5%B9%B6Jasper%E6%8A%A5%E8%A1%A8%E4%B8%AD%E7%9A%84%E8%A1%A8%E6%A0%BC%E8%A1%8C%E5%8D%95%E5%85%83%E6%A0%BC%EF%BC%9F
@@ -78,7 +78,7 @@ public class ExportReportUtil {
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             // 以JasperCompileManager將jrxml模板編譯成jasper文件
-            JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(reportPath));
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(reportPath));
 
             // 將Java集合資料來源與Jasper報表進行綁定
             JRDataSource dataSource = new JRBeanCollectionDataSource(dataSourceList, true);
@@ -91,6 +91,7 @@ public class ExportReportUtil {
 
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception();
         }
     }
@@ -99,7 +100,7 @@ public class ExportReportUtil {
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             // 以JasperCompileManager將jrxml模板編譯成jasper文件
-            JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(params.getReportPath()));
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(params.getReportPath()));
 
             // 將Java集合資料來源與Jasper報表進行綁定
             JRDataSource dataSource = new JRBeanCollectionDataSource(params.getDataSourceList(), true);
@@ -131,7 +132,7 @@ public class ExportReportUtil {
                 Map<String, Object> parametersMap = detail.getParametersMap();
 
                 // 以JasperCompileManager將jrxml模板編譯成jasper文件
-                JasperReport jasperReport = JasperCompileManager.compileReport(ExportExcelUtil.class.getResourceAsStream(path));
+                JasperReport jasperReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(path));
 
                 // 將Java集合資料來源與Jasper報表進行綁定
                 JRDataSource dataSource = new JRBeanCollectionDataSource(dataSourceList, true);
@@ -154,6 +155,17 @@ public class ExportReportUtil {
             exporter.exportReport();
 
             return byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+
+    public static void setSubReportSource(Map<String, Object> parametersMap, String subReportExp) throws Exception {
+        // jasper文件 子報表
+        try {
+            JasperReport subReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(subReportExp));
+            // 將子報表放入主報表參數
+            parametersMap.put("compiledSubReport", subReport);
         } catch (Exception e) {
             throw new Exception();
         }

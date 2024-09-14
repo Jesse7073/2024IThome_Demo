@@ -10,7 +10,9 @@ import com.ithome._demo.facade.IJasperDemoFacade;
 import com.ithome._demo.model.report.*;
 import com.ithome._demo.model.report.common.*;
 import com.ithome._demo.service.IReportDemoService;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -196,24 +198,19 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         mapSubReportData(departmentCourseScoreAverageReportModelList, parametersMap);
 
         // 5. 設定子報表來源
-//        SubReportModel subReportModel = new SubReportModel();
-//        subReportModel.setSubDataExpression(parametersMap);
-//        subReportModel.setSubJrxmlFilePath("/Report/Jasper/DepartmentCourseScoreAverageSubReport.jrxml");
-//        subReportModel.setSubDataSource();
-//
-//        ExportReportUtil.setSubReportSource(parametersMap, subReportModel);
+        try {
+            String subReportPath = "/Report/Jasper/DepartmentCourseScoreAverageSubReport.jrxml";
+            ExportReportUtil.setSubReportSource(parametersMap, subReportPath);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         // 5.匯出excel byte[]
         byte[] bytes = null;
         String fileType = FileType.XLSX;
         try {
-//            List<SheetReportDetail> sheetReportDetailList = getSheetReportDetailList(studentDataReportModelList, parametersMap, studentCourseScoreReportModelList);
-//
-//            MultipleSheetReportParams params = new MultipleSheetReportParams(sheetReportDetailList, fileType);
-//
-//            bytes = ExportReportUtil.templateToByteMultipleSheet(params);
-            // 重複標題的問題
-            // https://blog.csdn.net/daming924/article/details/7416613
+            String reportPath = "/Report/Jasper/DepartmentCourseScoreAverageReport.jrxml";
+            bytes = ExportReportUtil.templateToByteByFileType(departmentCourseScoreAverageReportModelList, reportPath, parametersMap, fileType);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -221,13 +218,13 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         // 6.設定檔案名稱
         CommonReportModel commonReportModel = null;
         try {
-            String encodedFilename = URLEncoder.encode("學生課堂成績資料." + fileType, StandardCharsets.UTF_8.name());
+            String encodedFilename = URLEncoder.encode("科系成績平均資料." + fileType, StandardCharsets.UTF_8.name());
             commonReportModel = new CommonReportModel(bytes, encodedFilename);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("下載 StudentCourseScoreDataReport 成功");
+        System.out.println("下載 DepartmentCourseScoreAverageDataReport 成功");
         return commonReportModel;
     }
 
@@ -305,8 +302,11 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
 
     private void mapSubReportData(List<DepartmentCourseScoreAverageReportModel> departmentCourseScoreAverageReportModelList, Map<String, Object> parametersMap) {
         for (DepartmentCourseScoreAverageReportModel departmentCourseScoreAverageReportModel : departmentCourseScoreAverageReportModelList) {
+            String departmentId = departmentCourseScoreAverageReportModel.getDepartmentId();
             List<SubReportAverageScoreModel> subReportAverageScoreModelList = departmentCourseScoreAverageReportModel.getSubReportAverageScoreModelList();
-            parametersMap.put("departmentId", subReportAverageScoreModelList);
+            // 設置為子報表的資料來源
+            Object subReportDataSource = CollectionUtils.isEmpty(subReportAverageScoreModelList) ? new JREmptyDataSource() : new JRBeanCollectionDataSource(subReportAverageScoreModelList);
+            parametersMap.put(departmentId, subReportDataSource);
         }
     }
 
