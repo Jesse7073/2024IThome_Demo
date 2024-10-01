@@ -42,17 +42,4 @@ public class StudentCourseScoreDto {
     private Integer score;
 
     private Date testDate;
-
-    public StudentCourseScoreReportModel toStudentCourseScoreReportModel() {
-        StudentCourseScoreReportModel model = new StudentCourseScoreReportModel();
-        String padding = StringUtils.leftPad(String.valueOf(studentId), 5, "0");
-        model.setStudentNumber(padding);
-        model.setFullName(firstName + " " + lastName);
-        model.setGrade(grade);
-        model.setDepartmentDesc(departmentDesc);
-        model.setCourseDesc(courseDesc);
-        model.setScore(score);
-        model.setTestDate(DateUtil.formatDate(DateUtil.toLocalDate(testDate), DateUtil.DatePattern.DATE_SLASH));
-        return model;
-    }
 }

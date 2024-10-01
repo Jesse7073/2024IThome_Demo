@@ -1,5 +1,6 @@
 package com.ithome._demo.dao;
 
+import com.ithome._demo.dto.DatePeriodDto;
 import com.ithome._demo.dto.StudentAndDepartmentDto;
 import com.ithome._demo.dto.StudentCourseScoreDto;
 
@@ -11,4 +12,7 @@ public interface IJasperReportDemoDao {
 
     // 查詢學生考試成績資料
     List<StudentCourseScoreDto> getStudentCourseScoreData();
+
+    // 查詢學生考試成績資料 by date
+    List<StudentCourseScoreDto> getStudentTestDataByDate(DatePeriodDto datePeriodDto);
 }

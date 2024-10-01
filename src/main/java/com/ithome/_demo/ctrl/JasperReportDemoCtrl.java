@@ -2,6 +2,7 @@ package com.ithome._demo.ctrl;
 
 import com.ithome._demo.facade.IJasperDemoFacade;
 import com.ithome._demo.model.report.common.CommonReportModel;
+import com.ithome._demo.vo.DatePeriodVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -75,6 +76,84 @@ public class JasperReportDemoCtrl {
     @GetMapping("/studentAndDepartmentDataPieChartReport")
     public @ResponseBody ResponseEntity<byte[]> exportStudentAndDepartmentDataPieChartReport() {
         CommonReportModel commonReportModel = jasperDemoFacade.exportStudentAndDepartmentDataPieChartReport();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
+
+    /**
+     * 購買烤肉用品統計表demo excel
+     * */
+    @GetMapping("/BBQSuppliesDemoExcel")
+    public @ResponseBody ResponseEntity<byte[]> exportBBQSuppliesDemoExcel() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportBBQSuppliesDemoExcel();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
+
+    /**
+     * 匯出學生基本資料報表(Group)
+     * */
+    @GetMapping("/studentAndDepartmentGroupDataReport")
+    public @ResponseBody ResponseEntity<byte[]> exportStudentAndDepartmentGroupDataReport() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportStudentAndDepartmentGroupDataReport();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
+
+    /**
+     * 匯出學生成績資料表(變數：成績最高的)
+     * */
+    @GetMapping("/studentCourseScoreDataVariableReport")
+    public @ResponseBody ResponseEntity<byte[]> exportStudentCourseScoreData() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportStudentCourseScoreDataVariableReport();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
+
+    /**
+     * 匯出學生成績資料表(變數：成績最高的)
+     * */
+    @PostMapping("/studentTestByDateReport")
+    public @ResponseBody ResponseEntity<byte[]> exportStudentTestByDateReport(@RequestBody DatePeriodVo datePeriodVO) {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportStudentTestByDateReport(datePeriodVO);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
+
+    /**
+     * 報價單(excel公式)
+     * */
+    @GetMapping("/quotation")
+    public @ResponseBody ResponseEntity<byte[]> exportQuotation() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportQuotation();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
+
+    /**
+     * 支出證明單(no dataSource)
+     * */
+    @GetMapping("/expenses")
+    public @ResponseBody ResponseEntity<byte[]> exportExpenses() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportExpenses();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)

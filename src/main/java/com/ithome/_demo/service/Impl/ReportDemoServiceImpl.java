@@ -1,10 +1,15 @@
 package com.ithome._demo.service.Impl;
 
 import com.ithome._demo.dao.IJasperReportDemoDao;
+import com.ithome._demo.dto.DatePeriodDto;
 import com.ithome._demo.dto.DepartmentAverageScoreDto;
-import com.ithome._demo.dto.StudentAndDepartmentDto;
 import com.ithome._demo.dto.StudentCourseScoreDto;
 import com.ithome._demo.dto.SubAverageScoreDto;
+import com.ithome._demo.model.report.DepartmentCourseScoreAverageReportModel;
+import com.ithome._demo.model.report.StudentCourseScoreReportModel;
+import com.ithome._demo.model.report.StudentDataReportModel;
+import com.ithome._demo.model.report.SubReportAverageScoreModel;
+import com.ithome._demo.vo.DatePeriodVo;
 import com.ithome._demo.service.IReportDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,34 +28,38 @@ public class ReportDemoServiceImpl implements IReportDemoService {
     private IJasperReportDemoDao jasperReportDemoDao;
 
     @Override
-    public List<StudentAndDepartmentDto> getStudentAndDepartmentData() {
-        List<StudentAndDepartmentDto> studentAndDepartmentDtoList = null;
+    public List<StudentDataReportModel> getStudentAndDepartmentData() {
+        List<StudentDataReportModel> studentDataReportModelList = null;
         try {
-            studentAndDepartmentDtoList = Optional.of(jasperReportDemoDao.getStudentAndDepartmentData())
-                    .orElse(new ArrayList<>());
+            studentDataReportModelList = Optional.of(jasperReportDemoDao.getStudentAndDepartmentData())
+                    .orElse(new ArrayList<>())
+                    .stream().map(StudentDataReportModel::new)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return studentAndDepartmentDtoList;
+        return studentDataReportModelList;
     }
 
     @Override
-    public List<StudentCourseScoreDto> getStudentCourseScoreData() {
-        List<StudentCourseScoreDto> studentCourseScoreDtoList = null;
+    public List<StudentCourseScoreReportModel> getStudentCourseScoreData() {
+        List<StudentCourseScoreReportModel> studentCourseScoreReportModelList = null;
 
         try {
-            studentCourseScoreDtoList = Optional.of(jasperReportDemoDao.getStudentCourseScoreData())
-                    .orElse(new ArrayList<>());
+            studentCourseScoreReportModelList = Optional.of(jasperReportDemoDao.getStudentCourseScoreData())
+                    .orElse(new ArrayList<>())
+                    .stream().map(StudentCourseScoreReportModel::new)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return studentCourseScoreDtoList;
+        return studentCourseScoreReportModelList;
     }
 
     @Override
-    public List<DepartmentAverageScoreDto> getDepartmentAverageScore() {
+    public List<DepartmentCourseScoreAverageReportModel> getDepartmentAverageScore() {
         // 1.取得學生課程成績資料
         List<StudentCourseScoreDto> studentCourseScoreDtoList = null;
 
@@ -67,7 +76,7 @@ public class ReportDemoServiceImpl implements IReportDemoService {
 
         // 3.計算科系課程平均
         // 主報表、子報表物件清單
-        List<DepartmentAverageScoreDto> departmentAverageScoreDtoList = new ArrayList<>();
+        List<DepartmentCourseScoreAverageReportModel> mainReportModelList = new ArrayList<>();
 
         for (Map.Entry<Integer, List<StudentCourseScoreDto>> entry : studentCourseScoreDtoMap.entrySet()) {
             Integer departmentId = entry.getKey();
@@ -79,28 +88,47 @@ public class ReportDemoServiceImpl implements IReportDemoService {
                     .collect(Collectors.groupingBy(StudentCourseScoreDto::getCourseId));
 
             // 子報表清單
-            List<SubAverageScoreDto> subAverageScoreDtoList = new ArrayList<>();
+            List<SubReportAverageScoreModel> subReportModelList = new ArrayList<>();
             // 計算課程平均
             for (Map.Entry<Integer, List<StudentCourseScoreDto>> courseEntry : courseScoreDtoMap.entrySet()) {
-                Integer courseId = courseEntry.getKey();
                 List<StudentCourseScoreDto> courseValue = courseEntry.getValue();
                 String courseDesc = courseValue.get(0).getCourseDesc();
                 BigDecimal totalScore = new BigDecimal(courseValue.stream().mapToInt(StudentCourseScoreDto::getScore).sum());
                 BigDecimal averageScore = totalScore.divide(new BigDecimal(courseValue.size()), 2, RoundingMode.HALF_UP);
 
-                // 子報表物件
-                SubAverageScoreDto subAverageScoreDto = new SubAverageScoreDto(departmentId, courseId, courseDesc, averageScore);
-                subAverageScoreDtoList.add(subAverageScoreDto);
+                // 課程名稱、平均成績放入子報表物件
+                SubReportAverageScoreModel subReportAverageScoreModel = new SubReportAverageScoreModel(courseDesc, averageScore);
+                subReportModelList.add(subReportAverageScoreModel);
             }
 
             // 主報表物件
-            DepartmentAverageScoreDto departmentAverageScoreDto = new DepartmentAverageScoreDto();
-            departmentAverageScoreDto.setDepartmentId(departmentId);
-            departmentAverageScoreDto.setDepartmentDesc(departmentDesc);
-            departmentAverageScoreDto.setSubAverageScoreDtoList(subAverageScoreDtoList);
-            departmentAverageScoreDtoList.add(departmentAverageScoreDto);
+            DepartmentCourseScoreAverageReportModel mainReportModel = new DepartmentCourseScoreAverageReportModel();
+            // 為了作為parametersMap的key，型別須轉為String
+            mainReportModel.setDepartmentId(departmentId.toString());
+            mainReportModel.setDepartmentDesc(departmentDesc);
+            mainReportModel.setSubReportAverageScoreModelList(subReportModelList);
+            mainReportModelList.add(mainReportModel);
         }
 
-        return departmentAverageScoreDtoList;
+        return mainReportModelList;
+    }
+
+    // 查詢學生考試成績資料 by date
+    @Override
+    public List<StudentCourseScoreReportModel> getStudentTestDataByDate(DatePeriodVo datePeriodVO) {
+        DatePeriodDto datePeriodDto = datePeriodVO.toDatePeriodDto();
+
+        List<StudentCourseScoreReportModel> studentCourseScoreReportModelList = null;
+
+        try {
+            studentCourseScoreReportModelList = Optional.of(jasperReportDemoDao.getStudentTestDataByDate(datePeriodDto))
+                    .orElse(new ArrayList<>())
+                    .stream().map(StudentCourseScoreReportModel::new)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return studentCourseScoreReportModelList;
     }
 }

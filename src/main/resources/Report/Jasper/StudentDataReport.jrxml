@@ -43,7 +43,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
-				<text><![CDATA[學號]]></text>
+				<text><![CDATA[序號]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="100" y="0" width="154" height="30" uuid="247d4fd3-64c4-40bd-99fd-d7edc0f22d10"/>
@@ -119,8 +119,8 @@
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="0" y="0" width="210" height="30" uuid="6a5e2675-e009-4aa8-ab30-7e9acb94bc1d"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="0" y="0" width="555" height="30" uuid="6a5e2675-e009-4aa8-ab30-7e9acb94bc1d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="微軟正黑體"/>
 				</textElement>
 				<textFieldExpression><![CDATA["共 " + $P{studentNum}  + " 位學生"]]></textFieldExpression>

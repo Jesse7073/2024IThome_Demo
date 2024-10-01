@@ -13,6 +13,59 @@
 	<field name="gender" class="java.lang.String"/>
 	<field name="departmentDesc" class="java.lang.String"/>
 	<field name="grade" class="java.lang.String"/>
+	<group name="GroupByGrade" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{grade}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="30" uuid="81582984-a4c5-4645-8c40-b3720c756cf7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="微軟正黑體" size="14"/>
+					</textElement>
+					<text><![CDATA[學號]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="100" y="0" width="154" height="30" uuid="247d4fd3-64c4-40bd-99fd-d7edc0f22d10"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="微軟正黑體" size="14"/>
+					</textElement>
+					<text><![CDATA[姓名]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="254" y="0" width="65" height="30" uuid="84adbaaf-974e-4fc5-81f5-54039ff368d1"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="微軟正黑體" size="14"/>
+					</textElement>
+					<text><![CDATA[性別]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="455" y="0" width="100" height="30" uuid="85a86eba-30b6-4718-a47b-9824e07e740b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="微軟正黑體" size="14"/>
+					</textElement>
+					<text><![CDATA[年級]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="319" y="0" width="136" height="30" uuid="02c191ae-2e31-4588-8cb5-4ed1e2757b4f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="微軟正黑體" size="14"/>
+					</textElement>
+					<text><![CDATA[科系]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="30">
+				<textField>
+					<reportElement x="0" y="0" width="555" height="30" uuid="6a5e2675-e009-4aa8-ab30-7e9acb94bc1d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="微軟正黑體"/>
+					</textElement>
+					<textFieldExpression><![CDATA["共 " + $V{GroupByGrade_COUNT} + " 位學生"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band height="802" splitType="Stretch">
 			<image hAlign="Center">
@@ -44,46 +97,6 @@
 			</textField>
 		</band>
 	</title>
-	<columnHeader>
-		<band height="30" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<staticText>
-				<reportElement x="0" y="0" width="100" height="30" uuid="81582984-a4c5-4645-8c40-b3720c756cf7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="微軟正黑體" size="14"/>
-				</textElement>
-				<text><![CDATA[學號]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="100" y="0" width="154" height="30" uuid="247d4fd3-64c4-40bd-99fd-d7edc0f22d10"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="微軟正黑體" size="14"/>
-				</textElement>
-				<text><![CDATA[姓名]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="254" y="0" width="65" height="30" uuid="84adbaaf-974e-4fc5-81f5-54039ff368d1"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="微軟正黑體" size="14"/>
-				</textElement>
-				<text><![CDATA[性別]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="455" y="0" width="100" height="30" uuid="85a86eba-30b6-4718-a47b-9824e07e740b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="微軟正黑體" size="14"/>
-				</textElement>
-				<text><![CDATA[年級]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="319" y="0" width="136" height="30" uuid="02c191ae-2e31-4588-8cb5-4ed1e2757b4f"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="微軟正黑體" size="14"/>
-				</textElement>
-				<text><![CDATA[科系]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -124,16 +137,22 @@
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="30" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	<pageFooter>
+		<band height="30">
 			<textField>
-				<reportElement x="0" y="0" width="210" height="30" uuid="6a5e2675-e009-4aa8-ab30-7e9acb94bc1d"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="180" y="0" width="100" height="30" uuid="e0024e02-8727-4480-b826-8ab3d798b608"/>
+				<textElement textAlignment="Right">
 					<font fontName="微軟正黑體"/>
 				</textElement>
-				<textFieldExpression><![CDATA["共 " + $P{studentNum}  + " 位學生"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["第 " + $V{PAGE_NUMBER} + " 頁 "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="0" width="100" height="30" uuid="20ed11a6-a2c8-4bb6-b238-81d1756150e9"/>
+				<textElement textAlignment="Left">
+					<font fontName="微軟正黑體"/>
+				</textElement>
+				<textFieldExpression><![CDATA["/ 共 " + $V{PAGE_NUMBER}  + " 頁"]]></textFieldExpression>
 			</textField>
 		</band>
-	</summary>
+	</pageFooter>
 </jasperReport>

@@ -30,7 +30,7 @@ public class DateUtil {
         public static final String DATE_DASH = "yyyy-MM-dd";
         public static final String DATE_SLASH = "yyyy/MM/dd";
         public static final String DATE_NO_DASH = "yyyyMMdd";
-        public static final String DATE_NOTIFY = "yyy年MM月dd日";
+        public static final String DATE_NOTIFY = "yyyy年MM月dd日";
         public static final String YEAR_MONTH_NOTIFY = "yyyy年MM月";
     }
 

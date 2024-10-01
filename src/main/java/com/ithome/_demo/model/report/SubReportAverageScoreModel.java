@@ -11,19 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubReportAverageScoreModel {
-
-    private Integer departmentId;
-
-    private Integer courseId;
-
     private String courseDesc;
 
     private BigDecimal averageScore;
-
-    public SubReportAverageScoreModel(SubAverageScoreDto dto) {
-        this.departmentId = dto.getDepartmentId();
-        this.courseId = dto.getCourseId();
-        this.courseDesc = dto.getCourseDesc();
-        this.averageScore = dto.getAverageScore();
-    }
 }

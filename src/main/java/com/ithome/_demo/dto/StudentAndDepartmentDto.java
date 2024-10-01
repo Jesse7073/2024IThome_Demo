@@ -26,15 +26,4 @@ public class StudentAndDepartmentDto {
     private String departmentName;
 
     private String departmentDesc;
-
-    public StudentDataReportModel toStudentDataReportModel() {
-        StudentDataReportModel model = new StudentDataReportModel();
-        String padding = StringUtils.leftPad(String.valueOf(studentId), 5, "0");
-        model.setStudentNumber(padding);
-        model.setFullName(firstName + " " + lastName);
-        model.setGender(GenderConsts.Gender.MALE.getCode().equals(gender) ? GenderConsts.Gender.MALE.getValue() : GenderConsts.Gender.FEMALE.getValue());
-        model.setGrade(grade);
-        model.setDepartmentDesc(departmentDesc);
-        return model;
-    }
 }

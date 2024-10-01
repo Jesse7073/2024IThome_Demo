@@ -1,8 +1,9 @@
 package com.ithome._demo.common.utils;
 
 import com.ithome._demo.common.consts.FileType;
+import com.ithome._demo.model.report.DepartmentCourseScoreAverageReportModel;
+import com.ithome._demo.model.report.SubReportAverageScoreModel;
 import com.ithome._demo.model.report.common.ExportReportParams;
-import com.ithome._demo.model.report.common.MultipleSheetReportParams;
 import com.ithome._demo.model.report.common.SheetReportDetail;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -11,6 +12,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
 import java.util.ArrayList;
@@ -70,6 +72,7 @@ public class ExportReportUtil {
             exporter.exportReport();
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception();
         }
     }
@@ -113,14 +116,14 @@ public class ExportReportUtil {
 
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception();
         }
     }
 
-    public static byte[] templateToByteMultipleSheet(MultipleSheetReportParams params) throws Exception {
+    public static byte[] templateToByteMultipleSheet(List<SheetReportDetail> sheetReportDetailList) throws Exception {
 
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-            List<SheetReportDetail> sheetReportDetailList = params.getSheetReportDetailList();
             List<JasperPrint> printList = new ArrayList<>();
             String[] sheetNames = new String[sheetReportDetailList.size()];
 
@@ -156,18 +159,49 @@ public class ExportReportUtil {
 
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
-            throw new Exception();
+            throw new RuntimeException(e);
         }
     }
 
-    public static void setSubReportSource(Map<String, Object> parametersMap, String subReportExp) throws Exception {
+    public static void setSubReportJasper(Map<String, Object> parametersMap, String subReportExp, String expressionKey) throws Exception {
         // jasper文件 子報表
         try {
             JasperReport subReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(subReportExp));
             // 將子報表放入主報表參數
-            parametersMap.put("compiledSubReport", subReport);
+            parametersMap.put(expressionKey, subReport);
         } catch (Exception e) {
             throw new Exception();
+        }
+    }
+
+    public static byte[] templateToExcelByte(List dataSourceList, String reportPath, Map<String, Object> parametersMap) throws Exception {
+
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+            // 以JasperCompileManager將jrxml模板編譯成jasper文件
+            JasperReport jasperReport = JasperCompileManager.compileReport(ExportReportUtil.class.getResourceAsStream(reportPath));
+
+            // 將Java集合資料來源與Jasper報表進行綁定
+            JRDataSource dataSource = CollectionUtils.isEmpty(dataSourceList) ?
+                    new JREmptyDataSource(5) : new JRBeanCollectionDataSource(dataSourceList);
+
+            // 將資料填入報表
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parametersMap, dataSource);
+
+            // 匯出
+            SimpleXlsxReportConfiguration xlsxReportConfiguration = new SimpleXlsxReportConfiguration();
+            // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
+            xlsxReportConfiguration.setDetectCellType(true);
+
+            JRXlsxExporter exporter = new JRXlsxExporter();
+            exporter.setConfiguration(xlsxReportConfiguration);
+            exporter.setExporterInput(new SimpleExporterInput(print));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+            exporter.exportReport();
+
+            return byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

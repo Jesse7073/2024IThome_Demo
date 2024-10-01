@@ -30,7 +30,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="微軟正黑體" size="20"/>
 				</textElement>
-				<text><![CDATA[XX大學 科系成績平均表]]></text>
+				<text><![CDATA[XX大學 科系課程平均成績表]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="30" width="450" height="30" uuid="693fbdb4-cc9b-4764-bbd5-44af634d1df3">
