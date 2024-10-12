@@ -236,11 +236,11 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
 
         // 5.匯出excel byte[]
         byte[] bytes = null;
-        String fileType = FileType.PDF;
+        String fileType = FileType.XLSX;
         try {
             String reportPath = "/Report/Jasper/StudentDataWithPieChartReport.jrxml";
             // 4.2 匯出pdf JRPdfExporter
-            bytes = ExportReportUtil.templateToPdfByte(studentDataReportModelList, reportPath, parametersMap);
+            bytes = ExportReportUtil.templateToExcelByte(studentDataReportModelList, reportPath, parametersMap);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -520,6 +520,42 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         return commonReportModel;
     }
 
+    // 匯出簡介
+    @Override
+    public CommonReportModel exportIntroductionReport() {
+        // 1. 報表資料
+        List<IntroductionModel> introductionModelList = new ArrayList<>();
+        String name = "JasperReports";
+        String content = "JasperReports 是一個強大的開源 Java 報表生成引擎，廣泛應用於企業應用中，" +
+                         "用於創建各種格式的報表，例如 PDF、Excel、HTML、CSV 等。它支持從多種數據來源中提取數據，" +
+                         "像是 SQL 數據庫、JavaBeans、XML 和自定義數據源等，並將這些數據格式化成可讀的報表。";
+        IntroductionModel introductionModel = new IntroductionModel(name, content);
+        introductionModelList.add(introductionModel);
+
+        // 2. 匯出excel byte[]
+        byte[] bytes = null;
+        try {
+            Map<String, Object> parametersMap = new HashMap<>();
+            String reportPath = "/Report/Jasper/IntroductionReport.jrxml";
+
+            bytes = ExportReportUtil.templateToExcelByte(introductionModelList, reportPath, parametersMap);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // 3.設定檔案名稱
+        CommonReportModel commonReportModel = null;
+        String fileType = FileType.XLSX;
+        try {
+            String encodedFilename = URLEncoder.encode("開源軟體簡介." + fileType, StandardCharsets.UTF_8.name());
+            commonReportModel = new CommonReportModel(bytes, encodedFilename);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return commonReportModel;
+    }
+
     private static List<SheetReportDetail> getSheetReportDetailList(List<StudentDataReportModel> studentDataReportModelList, Map<String, Object> parametersMap, List<StudentCourseScoreReportModel> studentCourseScoreReportModelList) {
         String reportPath1 = "/Report/Jasper/StudentDataReportExcel.jrxml";
         String reportPath2 = "/Report/Jasper/StudentCourseScoreReport.jrxml";
@@ -538,7 +574,7 @@ public class JasperDemoFacadeImpl implements IJasperDemoFacade {
         LocalDate localDate = new Date().toInstant()
                 .atZone(ZoneId.systemDefault()).toLocalDate();
         parameters.put("date", DateUtil.formatDate(localDate, DateUtil.DatePattern.DATE_NOTIFY));
-        parameters.put("studentNum", studentDataReportModelList.size());
+//        parameters.put("studentNum", studentDataReportModelList.size());
 
         return parameters;
     }

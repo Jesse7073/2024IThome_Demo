@@ -17,8 +17,6 @@ public class StudentCourseScoreReportModel {
 
     private String grade;
 
-    private String department;
-
     private String courseDesc;
 
     private String departmentDesc;

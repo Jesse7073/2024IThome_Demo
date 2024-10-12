@@ -160,4 +160,17 @@ public class JasperReportDemoCtrl {
                 .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
                 .body(commonReportModel.getReportBytes());
     }
+
+    /**
+     * 開源軟體簡介(自動適應內容高度)
+     * */
+    @GetMapping("/introductionReport")
+    public @ResponseBody ResponseEntity<byte[]> exportIntroductionReport() {
+        CommonReportModel commonReportModel = jasperDemoFacade.exportIntroductionReport();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "attachment; filename*=UTF-8''" + commonReportModel.getReportFileName())
+                .body(commonReportModel.getReportBytes());
+    }
 }

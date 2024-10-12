@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StudentDataReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ba969044-af0a-46b9-846b-06e3b6797687">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StudentDataReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="ba969044-af0a-46b9-846b-06e3b6797687">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<subDataset name="DepartmentNumDataset" uuid="81956b03-8918-48ed-810a-191fb1a35463">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 		<queryString>
@@ -12,7 +21,6 @@
 		<field name="departmentRatio" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="date" class="java.lang.String"/>
-	<parameter name="studentNum" class="java.lang.Integer"/>
 	<parameter name="DepartmentNumDataset" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<queryString>
 		<![CDATA[]]>
@@ -26,7 +34,7 @@
 		<band height="60" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="30" uuid="cbf80dc4-072f-45ae-9e3e-7a3d19df2b24">
+				<reportElement x="0" y="0" width="595" height="30" uuid="cbf80dc4-072f-45ae-9e3e-7a3d19df2b24">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -35,7 +43,7 @@
 				<text><![CDATA[XX大學 學生資料表]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="30" width="555" height="30" uuid="297f438b-2e77-4f9f-ae5c-bb5107d5135f">
+				<reportElement x="0" y="30" width="595" height="30" uuid="297f438b-2e77-4f9f-ae5c-bb5107d5135f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -70,14 +78,14 @@
 				<text><![CDATA[性別]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="455" y="0" width="100" height="30" uuid="85a86eba-30b6-4718-a47b-9824e07e740b"/>
+				<reportElement x="495" y="0" width="100" height="30" uuid="85a86eba-30b6-4718-a47b-9824e07e740b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
 				<text><![CDATA[年級]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="319" y="0" width="136" height="30" uuid="02c191ae-2e31-4588-8cb5-4ed1e2757b4f"/>
+				<reportElement x="319" y="0" width="176" height="30" uuid="02c191ae-2e31-4588-8cb5-4ed1e2757b4f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="微軟正黑體" size="14"/>
 				</textElement>
@@ -110,14 +118,14 @@
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="319" y="0" width="136" height="30" uuid="c506b421-587d-4ea9-93da-e1395cd93cce"/>
+				<reportElement x="319" y="0" width="176" height="30" uuid="c506b421-587d-4ea9-93da-e1395cd93cce"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="微軟正黑體"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{departmentDesc}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="455" y="0" width="100" height="30" uuid="24ddf3ee-e2d5-41ca-9f8b-a0d25621e5bd"/>
+				<reportElement x="495" y="0" width="100" height="30" uuid="24ddf3ee-e2d5-41ca-9f8b-a0d25621e5bd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="微軟正黑體"/>
 				</textElement>
@@ -126,18 +134,11 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="262" splitType="Stretch">
+		<band height="210" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<textField>
-				<reportElement x="0" y="0" width="210" height="30" uuid="6a5e2675-e009-4aa8-ab30-7e9acb94bc1d"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="微軟正黑體"/>
-				</textElement>
-				<textFieldExpression><![CDATA["共 " + $P{studentNum}  + " 位學生"]]></textFieldExpression>
-			</textField>
 			<pieChart>
-				<chart evaluationTime="Report">
-					<reportElement x="220" y="31" width="320" height="231" uuid="96e662a9-b2b1-4d04-877f-96e7cd6c336a"/>
+				<chart evaluationTime="Report" renderType="draw" theme="default">
+					<reportElement x="120" y="0" width="360" height="210" uuid="96e662a9-b2b1-4d04-877f-96e7cd6c336a"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>

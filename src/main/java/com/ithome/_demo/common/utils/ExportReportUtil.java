@@ -182,7 +182,7 @@ public class ExportReportUtil {
 
             // 將Java集合資料來源與Jasper報表進行綁定
             JRDataSource dataSource = CollectionUtils.isEmpty(dataSourceList) ?
-                    new JREmptyDataSource(5) : new JRBeanCollectionDataSource(dataSourceList);
+                    new JREmptyDataSource() : new JRBeanCollectionDataSource(dataSourceList);
 
             // 將資料填入報表
             JasperPrint print = JasperFillManager.fillReport(jasperReport, parametersMap, dataSource);
@@ -191,6 +191,7 @@ public class ExportReportUtil {
             SimpleXlsxReportConfiguration xlsxReportConfiguration = new SimpleXlsxReportConfiguration();
             // setDetectCellType使excel偵測這個值的型別並轉換為對應的格式
             xlsxReportConfiguration.setDetectCellType(true);
+            xlsxReportConfiguration.setAutoFitPageHeight(true);
 
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setConfiguration(xlsxReportConfiguration);

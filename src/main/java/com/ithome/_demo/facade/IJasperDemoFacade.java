@@ -36,4 +36,7 @@ public interface IJasperDemoFacade {
 
     // 匯出支出證明
     CommonReportModel exportExpenses();
+
+    // 匯出簡介
+    CommonReportModel exportIntroductionReport();
 }
