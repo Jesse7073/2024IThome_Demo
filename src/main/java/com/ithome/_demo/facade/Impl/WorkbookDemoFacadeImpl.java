@@ -497,7 +497,6 @@ public class WorkbookDemoFacadeImpl implements IWorkbookDemoFacade {
     }
 
     private void createBarChart(Sheet sheet){
-        // 創建繪圖區域(createDrawingPatriarch() 方法返回的結果是一個通用的介面型態，這樣它可以在不同格式的工作表中通用。如果你知道自己正在處理的是 .xlsx 格式，則可以將返回的物件進行轉型為 XSSFDrawing)
         XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
         // https://poi.apache.org/apidocs/4.1/org/apache/poi/ss/usermodel/Drawing.html#createAnchor-int-int-int-int-int-int-int-int-
         // dx1, dy1：上左角的偏移量，分別表示距離第一個儲存格左邊界和上邊界的偏移，單位是 EMU (English Metric Units, 1 EMU = 1/36000 of a point)。
@@ -533,7 +532,7 @@ public class WorkbookDemoFacadeImpl implements IWorkbookDemoFacade {
         leftAxis.setCrossBetween(AxisCrossBetween.BETWEEN);
         // 設定Y軸的最大值與最小值
         leftAxis.setMinimum(50);
-        leftAxis.setMaximum(100);
+        leftAxis.setMaximum(90);
 
         // 4. 創建圖表資料
         // 設定圖表類型為Bar chart，設定軸標籤資料

@@ -1,6 +1,7 @@
 package com.ithome._demo.ctrl;
 
 import com.ithome._demo.facade.IChartDemoFacade;
+import com.ithome._demo.service.IReportDemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChartDemoCtrl {
     @Autowired
     private IChartDemoFacade chartDemoFacade;
+
+    @Autowired
+    private IReportDemoService reportDemoService;
 
     /**
      * 下載直條圖 demo
